@@ -13,14 +13,12 @@ if errorlevel 1 (
     exit /b
 )
 
-:: PyInstaller kontrolu
-python -m pyinstaller --version >nul 2>&1
-if errorlevel 1 (
-    echo PyInstaller yukleniyor...
-    pip install pyinstaller
-)
+:: PyInstaller'i dogru Python ortamina yukle
+echo PyInstaller kontrol ediliyor ve yukleniyor...
+python -m pip install --upgrade pip
+python -m pip install pyinstaller
 
-:: script.py kontrolu (ayni klasorde ariyor)
+:: script.py kontrolu
 if not exist "script.py" (
     echo Hata: script.py bulunamadi!
     pause
@@ -28,7 +26,14 @@ if not exist "script.py" (
 )
 
 echo script.py EXE haline getiriliyor...
-python -m pyinstaller --noconsole --onefile script.py
+python -m PyInstaller --noconsole --onefile script.py
+
+:: EXE olustu mu kontrol et
+if not exist "dist\script.exe" (
+    echo Hata: Derleme basarisiz oldu, EXE dosyasi olusturulamadi!
+    pause
+    exit /b
+)
 
 :: Hedef klasore tasima
 set "TARGET_DIR=%LOCALAPPDATA%\Programs\MAO-Windows-Reclaimer"
