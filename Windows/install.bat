@@ -1,6 +1,7 @@
 @echo off
 chcp 65001 >nul
-echo [MAO] GitHub reposu hazir, kurulum baslatiliyor...
+cd /d "%~dp0"
+echo [MAO] Kurulum baslatiliyor...
 
 :: Python kontrolu
 python --version >nul 2>&1
@@ -19,15 +20,15 @@ if errorlevel 1 (
     pip install pyinstaller
 )
 
-:: script.py kontrolu ve derleme
-if not exist "Windows\script.py" (
-    echo Hata: Windows\script.py bulunamadi!
+:: script.py kontrolu (ayni klasorde ariyor)
+if not exist "script.py" (
+    echo Hata: script.py bulunamadi!
     pause
     exit /b
 )
 
 echo script.py EXE haline getiriliyor...
-python -m pyinstaller --noconsole --onefile Windows\script.py
+python -m pyinstaller --noconsole --onefile script.py
 
 :: Hedef klasore tasima
 set "TARGET_DIR=%LOCALAPPDATA%\Programs\MAO-Windows-Reclaimer"
